@@ -1,0 +1,80 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct node
+{
+    int data;
+    struct node *next;
+}*node;
+
+node head=NULL;
+node createNode(int data)
+{
+    node nn=malloc(sizeof(struct node));
+    nn->data=data;
+    nn->next=NULL;
+    return nn;
+}
+void insertBeg(int data)
+{
+    node nn=createNode(data);
+    if(head==NULL)
+    {
+        head=nn;
+        return;
+    }
+    nn->next=head;
+    head=nn;
+}
+void crete()
+{
+    if(head==NULL)
+    {
+        return;
+    }
+    node tp=head;
+    while(tp->next!=NULL)
+    {
+        tp=tp->next;
+    }
+    tp->next=head->next;
+}
+int length()
+{
+    if(head==NULL)
+    {
+        return 0;
+    }
+    node sx=head;
+    node fx=head;
+    while(fx!=NULL && fx->next!=NULL)
+    {
+        fx=fx->next->next;
+        sx=sx->next;
+        if(sx==fx)
+        {
+            int c=0;
+            fx=fx->next;
+            while(sx!=fx)
+            {
+                c++;
+                fx=fx->next;
+            }
+            return c;
+        }
+    }
+    return 0;
+}
+
+int main()
+{
+    insertBeg(10342);
+    insertBeg(20);
+    insertBeg(200);
+    insertBeg(250);
+    insertBeg(230);
+    insertBeg(3420);
+    crete();
+    
+   
+    printf("%d",length());
+}
