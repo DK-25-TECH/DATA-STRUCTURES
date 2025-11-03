@@ -1,0 +1,75 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct node
+{
+    int data;
+    struct node *next;
+}*node;
+
+node head=NULL;
+node createNode(int data)
+{
+    node nn=malloc(sizeof(struct node));
+    nn->data=data;
+    nn->next=NULL;
+    return nn;
+}
+void insertBeg(int data)
+{
+    node nn=createNode(data);
+    if(head==NULL)
+    {
+        head=nn;
+        return;
+    }
+    nn->next=head;
+    head=nn;
+}
+int max()
+{
+    if(head==NULL)
+    {
+        return 0;
+    }
+    node tp=head;
+    int x=tp->data;
+    while(tp!=NULL)
+    {
+        if(tp->data>x)
+        {
+            x=tp->data;
+        }
+        tp=tp->next;
+    }
+    return x;
+}
+int min()
+{
+    if(head==NULL)
+    {
+        return 0;
+    }
+    node tp=head;
+    int x=tp->data;
+    while(tp!=NULL)
+    {
+        if(tp->data<x)
+        {
+            x=tp->data;
+        }
+        tp=tp->next;
+    }
+    return x;
+}
+int main()
+{
+    insertBeg(10342);
+    insertBeg(20);
+    insertBeg(200);
+    insertBeg(250);
+    insertBeg(230);
+    insertBeg(3420);
+    
+    printf("%d ",min());
+    printf("%d",max());
+}
