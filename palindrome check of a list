@@ -1,0 +1,75 @@
+
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct node
+{
+    int data;
+    struct node *next;
+}*node;
+
+node head=NULL;
+node createNode(int data)
+{
+    node nn=malloc(sizeof(struct node));
+    nn->data=data;
+    nn->next=NULL;
+    return nn;
+}
+void insertBeg(int data)
+{
+    node nn=createNode(data);
+    if(head==NULL)
+    {
+        head=nn;
+        return;
+    }
+    nn->next=head;
+    head=nn;
+}
+int palindrome()
+{
+    int arr[100];
+    node tp=head;
+    int n=0;
+    while(tp)
+    {
+        arr[n++]=tp->data;
+        tp=tp->next;
+    }
+    int l=0,r=n-1;
+    while(l<r)
+    {
+       if(arr[l]!=arr[r])
+       {
+           return 0;
+       }
+       l++;
+       r--;
+    }
+    return 1;
+}
+void display()
+{
+    if(head==NULL)
+    {
+        return;
+    }
+    node tp=head;
+    while(tp!=NULL)
+    {
+        printf("%d ",tp->data);
+        tp=tp->next;
+    }
+}
+int main()
+{
+    insertBeg(10);
+    insertBeg(12);
+    insertBeg(13);
+    insertBeg(13);
+    insertBeg(12);
+    insertBeg(10);
+    display();
+    printf("\n");
+    printf("%d",palindrome());
+}
