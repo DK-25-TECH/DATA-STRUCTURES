@@ -1,0 +1,53 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct node
+{
+    int data;
+    struct node *next;
+}*node;
+
+node head=NULL;
+node createNode(int data)
+{
+    node nn=malloc(sizeof(struct node));
+    nn->data=data;
+    nn->next=NULL;
+    return nn;
+}
+void insertBeg(int data)
+{
+    node nn=createNode(data);
+    if(head==NULL)
+    {
+        head=nn;
+        return;
+    }
+    nn->next=head;
+    head=nn;
+}
+void delete()
+{
+    if(head==NULL)
+    {
+        return;
+    }
+    while(head!=NULL)
+    {
+        node tp=head;
+        head=head->next;
+        free(tp);
+    }
+}
+int main()
+{
+    insertBeg(10342);
+    insertBeg(20);
+    insertBeg(200);
+    insertBeg(250);
+    insertBeg(230);
+    insertBeg(3420);
+   
+    delete();
+   
+  
+}
