@@ -1,0 +1,15 @@
+void rem()
+{
+    if(head==NULL)
+    {
+        return;
+    }
+    node tp=head;
+    while(tp!=NULL && tp->next!=NULL)
+    {
+        node x=tp->next;
+        tp->next=x->next;
+        free(x);
+        tp=tp->next;
+    }
+}
