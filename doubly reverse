@@ -1,0 +1,121 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct node{
+    int data;
+    struct node *next;
+    struct node *prv;
+}*node;
+node head=NULL;
+node create(int data)
+{
+   node nn=malloc(sizeof(struct node));
+    nn->data=data;
+    nn->next=NULL;
+    nn->prv=NULL;
+    return nn;
+}
+void insbeg(int data)
+{
+    if(head==NULL)
+    {
+        head=create(data);
+        return;
+    }
+    node tp=create(data);
+    tp->next=head;
+    head->prv=tp;
+    head=tp;
+}
+void insMid(int data,int pos)
+{
+    if(head==NULL)
+    {
+        return;
+    }
+    int i=0;
+    node nn=create(data);
+    node tp=head;
+    while(tp!=NULL && i<pos-1)
+    {
+        tp=tp->next;
+        i++;
+    }
+    if(tp==NULL)
+    {
+        return;
+    }
+    
+    nn->next=tp->next;
+    nn->prv=tp;
+    tp->next=nn;
+    if(nn->next!=NULL)
+    {
+        nn->next->prv=nn;
+    }
+}
+void insLst(int data)
+{
+    if(head==NULL)
+    {
+        head=create(data);
+        return;
+    }
+    node tp=head;
+    while(tp->next!=NULL)
+    {
+        tp=tp->next;
+    }
+    node nn=create(data);
+    tp->next=nn;
+    nn->prv=tp;
+}
+void display()
+{
+    if(head==NULL)
+    {
+        return;
+    }
+    node tp=head;
+    while(tp!=NULL)
+    {
+        printf("%d ",tp->data);
+        tp=tp->next;
+    }
+}
+void rev()
+{
+    if(head==NULL)
+    {
+        return;
+    }
+    node tp=head;
+    while(tp->next!=NULL)
+    {
+        tp=tp->next;
+    }
+    while(tp!=NULL)
+    {
+        printf("%d ",tp->data);
+        tp=tp->prv;
+    }
+}
+int main()
+{
+    insbeg(10);
+    insbeg(20);
+    insbeg(203);
+    insbeg(30);
+    insbeg(40);
+    insMid(5,2);
+    insLst(11);
+    insLst(1321);
+    display();
+    printf("\n");
+    rev();
+}
+
+
+
+
+
+
