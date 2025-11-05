@@ -1,0 +1,80 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct node{
+    int data;
+    struct node *next;
+    struct node *prv;
+}*node;
+
+ node head=NULL;
+node create(int data)
+{
+    node nn=malloc(sizeof(struct node));
+    nn->data=data;
+    nn->next=NULL;
+    nn->prv=NULL;
+    return nn;
+}
+void inslst(int data)
+{
+    node nn=create(data);
+    if(head==NULL)
+    {
+        head=nn;
+        return;
+    }
+    node tp=head;
+    while(tp->next!=NULL)
+    {
+        tp=tp->next;
+    }
+    tp->next=nn;
+    nn->prv=tp;
+}
+int check(int a,int b)
+{
+    return a<b;
+}
+void sort(int(*fp)(int,int))
+{
+    if(head==NULL)
+    {
+        return;
+    }
+    
+    for(node i=head->next;i!=NULL;i=i->next)
+    {
+        node j=i->prv;
+        while (j != NULL && fp(j->next->data, j->data)) {
+            int temp = j->next->data;
+            j->next->data = j->data;
+            j->data = temp;
+            j = j->prv;
+        }
+    }
+}
+void display()
+{
+    if(head==NULL)
+    {
+        return;
+    }
+    node tp=head;
+    while(tp!=NULL)
+    {
+        printf("%d ",tp->data);
+        tp=tp->next;
+    }
+}
+int main()
+{
+    inslst(10);
+    inslst(30);
+    inslst(20);
+    inslst(50);
+    inslst(40);
+    display();
+    printf("\n");
+    sort(check);
+    display();
+}
