@@ -1,0 +1,117 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct node{
+    int data;
+    struct node *next;
+}*node;
+
+node head=NULL;
+
+node create(int data)
+{
+    node nn=malloc(sizeof(struct node));
+    nn->data=data;
+    nn->next=NULL;
+    return nn;
+}
+
+int length()
+{
+    if(head==NULL)
+    {
+        return 0;
+    }
+    node tp=head;
+    int x=0;
+    while(tp!=NULL)
+    {
+        x++;
+        tp=tp->next;
+    }
+    return x;
+}
+node getnode(int n)
+{
+    if(head==NULL)
+    {
+        return NULL;
+    }
+    int i=0;
+    node tp=head;
+    while(i<n)
+    {
+        tp=tp->next;
+        i++;
+    }
+    return tp;
+}
+int check(int a,int b)
+{
+    return a>b;
+}
+void shell(int (*fp)())
+{
+    int n=fp();
+    for(int gap=n/2;gap>0;gap/=2)
+    {
+        for(int j=gap;j<n;j++)
+        {
+            for(int i=(j-gap);i>=0;i-=gap)
+            {
+                node a=getnode(i);
+                node b=getnode(i+gap);
+                if(check(a->data,b->data))
+                {
+                    int x=a->data;
+                    a->data=b->data;
+                    b->data=x;
+                }
+            }
+        }
+    }
+}
+void insLst(int data)
+{
+    node nn=create(data);
+    if(head==NULL)
+    {
+        head=nn;
+        return;
+    }
+    node tp=head;
+    while(tp->next!=NULL)
+    {
+        tp=tp->next;
+    }
+    tp->next=nn;
+}
+void display()
+{
+    if(head==NULL)
+    {
+        return;
+    }
+    node tp=head;
+    while(tp!=NULL)
+    {
+        printf("%d ",tp->data);
+        tp=tp->next;
+    }
+}
+int main()
+{
+    insLst(12);
+    insLst(121);
+    insLst(112);
+    insLst(1872);
+    insLst(122);
+    insLst(162);
+    insLst(172);
+    insLst(102);
+    insLst(152);
+    display();
+    printf("\n");
+    shell(length);
+    display();
+    
+}
