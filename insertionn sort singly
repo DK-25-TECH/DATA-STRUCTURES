@@ -1,0 +1,82 @@
+
+#include <stdio.h>
+#include<stdlib.h>
+typedef struct node
+{
+    int data;
+    struct node *next;
+}*node;
+
+node head=NULL;
+node create(int data)
+{
+    node nn=malloc(sizeof(struct node));
+    nn->data=data;
+    nn->next=NULL;
+    return nn;
+}
+void inslst(int data)
+{
+    node nn=create(data);
+    if(head==NULL)
+    {
+        head=nn;
+        return;
+    }
+    node tp=head;
+    while(tp->next!=NULL)
+    {
+        tp=tp->next;
+    }
+    tp->next=nn;
+
+}
+void disp()
+{
+    if(head==NULL)
+    {
+        return;
+    }
+    node tp=head;
+    while(tp!=NULL)
+    {
+        printf("%d ",tp->data);
+        tp=tp->next;
+    }
+}
+void sort()
+{
+    if(head==NULL)
+    {
+        return;
+    }
+    for(node i=head;i!=NULL;i=i->next)
+    {
+       node j=head;
+       node x=i;
+       while(j!=i && j->data<=x->data)
+       {
+           j=j->next;
+       }
+       while(j!=i)
+       {
+           int xx=j->data;
+           j->data=x->data;
+           x->data=xx;
+           j=j->next;
+       }
+    }
+}
+int main()
+{
+    inslst(10);
+    inslst(20);
+    inslst(50);
+    inslst(30);
+    inslst(40);
+    disp();
+    printf("\n");
+    sort();
+    disp();
+    return 0;
+}
