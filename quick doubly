@@ -1,0 +1,113 @@
+
+#include <stdio.h>
+#include<stdlib.h>
+typedef struct node
+{
+    int data;
+    struct node *next;
+    struct node *prv;
+}*node;
+
+node head=NULL;
+node create(int data)
+{
+    node nn=malloc(sizeof(struct node));
+    nn->data=data;
+    nn->next=NULL;
+    nn->prv=NULL;
+    return nn;
+}
+void inslst(int data)
+{
+    node nn=create(data);
+    if(head==NULL)
+    {
+        head=nn;
+        return;
+    }
+    node tp=head;
+    while(tp->next!=NULL)
+    {
+        tp=tp->next;
+    }
+    tp->next=nn;
+    nn->prv=tp;
+
+}
+void disp()
+{
+    if(head==NULL)
+    {
+        return;
+    }
+    node tp=head;
+    while(tp!=NULL)
+    {
+        printf("%d ",tp->data);
+        tp=tp->next;
+    }
+}
+void swap(int *a,int *b)
+{
+    int x=*a;
+    *a=*b;
+    *b=x;
+}
+node partition(node first,node last)
+{
+    int pivot=first->data;
+    node start=first;
+    node end=last;
+    while(start!=end)
+    {
+    while(start!=last && start->data<=pivot)
+    {
+        start=start->next; 
+    }
+    while(end!=first && end->data>pivot)
+    {
+        end=end->prv;
+    }
+    if(start!=end && start->data>pivot && end->data<pivot)
+    {
+        swap(&start->data,&end->data);
+    }
+    }
+    swap(&first->data,&end->data);
+    return end;
+}
+void quick(node l,node r)
+{
+    if(l==NULL || r==NULL || l==r || l==r->next)
+    {
+        return;
+    }
+    node x=partition(l,r);
+    if(x->prv!=NULL)
+    quick(l,x->prv);
+    if(x->next!=NULL)
+    quick(x->next,r);
+}
+node getlast()
+{
+    node last=head;
+    while(last->next!=NULL)
+    {
+        last=last->next;
+    }
+    return last;
+}
+int main()
+{
+    inslst(10);
+    inslst(20);
+    inslst(50);
+    inslst(30);
+    inslst(40);
+    disp();
+    printf("\n");
+    node last=getlast();
+    quick(head,last);
+    disp();
+    return 0;
+}
