@@ -1,0 +1,92 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+typedef struct node{
+    int data;
+    struct node *next;
+    struct node *prv;
+}*node;
+
+node front=NULL,rear=NULL;
+
+void enqueue(int data)
+{
+    node nn=malloc(sizeof(struct node));
+    nn->data=data;
+    nn->next=NULL;
+    if(front==NULL)
+    {
+        nn->next=nn;
+        nn->prv=nn;
+        front=rear=nn;
+        return;
+    }
+    nn->prv=rear;
+    nn->next=front;
+    rear->next=nn;
+    front->prv=nn;
+    rear=nn;
+}
+
+void dequeue()
+{
+    if(front==NULL)
+    {
+        printf("empty");
+        return;
+    }
+    node tp=front;
+    printf("deleted -> %d ",front->data);
+    if(front==rear)
+    {
+        front=rear=NULL;
+    }
+    else{
+    front=front->next;
+    rear->next=front;
+    front->prv=rear;
+    }
+    free(tp);
+}
+
+node peek()
+{
+    if(front==NULL)
+    {
+        return NULL;
+    }
+    return front;
+}
+
+void display()
+{
+    if(front==NULL)
+    {
+        return;
+    }
+    node tp=front;
+    do
+    {
+        printf("%d ",tp->data);
+        tp=tp->next;
+    }while(tp!=front);
+}
+int main()
+{
+    enqueue(10);
+    enqueue(20);
+    enqueue(30);
+    enqueue(40);
+    enqueue(50);
+    display();
+    printf("\n");
+    dequeue();
+    printf("\n");
+    display();
+    printf("\n");
+    node x=peek();
+    if(x!=NULL)
+    {
+        printf("peek -> %d",x->data);
+    }
+}
