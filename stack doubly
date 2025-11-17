@@ -1,0 +1,73 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct node{
+    int data;
+    struct node *next;
+    struct node *prv;
+}*node;
+
+node top=NULL;
+
+void push(int data)
+{
+    node nn=malloc(sizeof(struct node));
+    nn->data=data;
+    nn->next=top;
+    nn->prv=NULL;
+    if(top!=NULL)
+    {
+        top->prv=nn;
+    }
+    top=nn;
+}
+
+void pop()
+{
+    if(top==NULL)
+    {
+        printf("empty");
+        return;
+    }
+    node tp=top;
+    printf("%d",top->data);
+    top=top->next;
+    free(tp);
+    
+}
+node peek()
+{
+    if(top==NULL)
+    {
+        printf("empty");
+        return NULL;
+    }
+    return top;
+}
+void display()
+{
+    node tp=top;
+    while(tp!=NULL)
+    {
+        
+    printf("%d ",tp->data);
+    tp=tp->next;
+    }
+}
+
+int main()
+{
+    push(10);
+    push(20);
+    push(30);
+    push(40);
+    push(50);
+    display();
+    printf("\n");
+    pop();
+    printf("\n");
+    display();
+    printf("\n");
+    node x=peek();
+    if(x!=NULL)
+    printf("peek -> %d",x->data);
+}
