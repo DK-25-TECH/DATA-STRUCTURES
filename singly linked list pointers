@@ -1,0 +1,140 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+typedef struct node{
+    int data;
+    struct node *next;
+}node;
+node* create(int data)
+{
+    node *nn=malloc(sizeof(struct node));
+    nn->data=data;
+    nn->next=NULL;
+     return nn;
+}
+void insertbeg(node **head,int data)
+{
+    struct node *nn=create(data);
+    if(head==NULL)
+    {
+        *head=nn;
+        return;
+    }
+    
+    nn->next=*head;
+    *head=nn;
+}
+
+void insertlast(node **head,int data)
+{
+    node *nn=create(data);
+    if(*head==NULL)
+    {
+        *head=nn;
+        return;
+    }
+    node *tp=*head;
+    while(tp->next!=NULL)
+    {
+        tp=tp->next;
+    }
+    tp->next=nn;
+}
+void insertmid(node **head,int data,int pos)
+{
+    node *nn=create(data);
+    if(pos==1)
+    {
+        insertbeg(head,data);
+        return;
+    }
+    if(*head==NULL)
+    {
+        *head=nn;
+        return;
+    }
+    int x=1;
+    node *tp=*head;
+    while(tp!=NULL && x<pos-1)
+    {
+        x++;
+        tp=tp->next;
+    }
+    if(tp==NULL)
+    {
+        insertlast(head,data);
+        return;
+    }
+    nn->next=tp->next;
+    tp->next=nn;
+}
+void deletekey(node **head,int data)
+{
+    while(*head!=NULL && (*head)->data==data)
+    {
+       node *tp=*head;
+       *head=(*head)->next;
+       free(tp);
+    }
+    node *tp=*head;
+    while(tp->next!=NULL && tp->next->data==data)
+    {
+        if(tp->next->data==data)
+        {
+            node *x=tp->next;
+            tp->next=x->next;
+            free(x);
+        }
+        else{
+        tp=tp->next;
+        }
+    }
+    node *x=tp->next;
+    tp->next=x->next;
+    free(x);
+}
+void display(node *head)
+{
+    if(head==NULL)
+    {
+        return;
+    }
+    node *tp=head;
+    while(tp!=NULL)
+    {
+        printf("%d ",tp->data);
+        tp=tp->next;
+    }
+}
+void delbeg(node **head)
+{
+    if(head==NULL)
+    {
+        return;
+    }
+    node *tp=*head;
+    if((*head)->next!=NULL)
+    {
+        *head=(*head)->next;
+    }
+    free(tp);
+}
+int main()
+{
+    node *head=NULL;
+    insertbeg(&head,1);
+    insertbeg(&head,2);
+    insertbeg(&head,3);
+    insertbeg(&head,4);
+    insertbeg(&head,5);
+    insertbeg(&head,6);
+    insertlast(&head,1000);
+    insertmid(&head,3000,3);
+    display(head);
+    printf("\n");
+    deletekey(&head,3);
+    display(head);
+    printf("\n");
+    delbeg(&head);
+    display(head);
+}
