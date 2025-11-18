@@ -1,0 +1,97 @@
+
+#include <stdio.h>
+#define deleted -2
+#define empty -1
+#define n 5
+
+int keys[n];
+int vals[n];
+
+void init()
+{
+    for(int i=0;i<n;i++)
+    {
+        keys[i]=empty;
+        vals[i]=empty;
+    }
+}
+
+int hash(int key)
+{
+    return key%n;
+}
+
+void insert(int key,int val)
+{
+    int idx=hash(key);
+    
+    while(keys[idx]!=empty && keys[idx]!=key)
+    {
+        idx=(idx+1)%n;
+    }
+    keys[idx]=key;
+    vals[idx]=val;
+}
+
+void display()
+{
+    for(int idx=0;idx<n;idx++){
+        if(keys[idx]==empty)
+        {
+            printf("no element\n");
+        }
+        else
+        {
+            printf("index -> %d key -> %d value -> %d\n",idx,keys[idx],vals[idx]);
+        }
+    }
+}
+void delete(int key)
+{
+    int idx=hash(key);
+    int start=idx;
+    while(keys[idx]!=empty)
+    {
+        if(keys[idx]==key)
+        {
+            keys[idx]=deleted;
+            vals[idx]=0;
+            return;
+        }
+        idx=(idx+1)%n;
+        if(idx==start)break;
+    }
+}
+void search(int key)
+{
+    int idx=hash(key);
+    int start=idx;
+    while(keys[idx]!=empty)
+    {
+        if(keys[idx]==key)
+        {
+            printf("found at %d",idx);
+            return;
+        }
+        idx=(idx+1)%n;
+        if(idx==start) break;
+    }
+}
+int main()
+{
+   init();
+   insert(12,65);
+   insert(122,645);
+   insert(123,165);
+   insert(142,165);
+   insert(129,605);
+   
+   printf("\n");
+   display();
+   printf("\n");
+   printf("\n");
+   delete(142);
+   display();
+   printf("\n");
+   search(129);
+}
