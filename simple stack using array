@@ -1,0 +1,46 @@
+#include<stdio.h>
+#define n 5
+int st[n];
+int top=-1;
+
+void push(int data)
+{
+    if(top==n-1)
+    {
+        printf("full");
+        return;
+    }
+    st[++top]=data;
+}
+
+void pop()
+{
+    if(top==-1)
+    {
+        printf("empty");
+        return;
+    }
+    printf("%d",st[top]);
+    top--;
+}
+void display()
+{
+    for(int i=0;i<=top;i++)
+    {
+        printf("%d ",st[i]);
+    }
+}
+
+int main()
+{
+    push(1);
+    push(2);
+    push(3);
+    push(4);
+    push(5);
+    display();
+    printf("\n");
+    pop();
+    printf("\n");
+    display();
+}
