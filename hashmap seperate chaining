@@ -1,0 +1,139 @@
+#include<stdio.h>
+#include<stdlib.h>
+#define n 5
+#define x NULL
+
+typedef struct node{
+    int key;
+    int value;
+    struct node* next;
+}*node;
+
+struct node* hashtable[n];
+
+void init()
+{
+    for(int i=0;i<n;i++)
+    {
+        hashtable[i]=x;
+    }
+}
+
+int hash(int key)
+{
+    return key%n;
+}
+
+void insert(int key,int value)
+{
+    int idx=hash(key);
+    node nn=malloc(sizeof(struct node));
+    nn->key=key;
+    nn->value=value;
+    nn->next=NULL;
+    
+    if(hashtable[idx]==NULL)
+    {
+        hashtable[idx]=nn;
+    }
+    else
+    {
+        node tp=hashtable[idx];
+        while(tp!=NULL)
+        {
+            if(tp->key==key)
+            {
+                tp->key=key;
+                tp->value=value;
+                free(nn);
+                return;
+            }
+            if(tp->next==NULL)
+            {
+                break;
+            }
+            tp=tp->next;
+        }
+       tp->next=nn;
+    }
+}
+void search(int key)
+{
+    int idx=hash(key);
+    node tp=hashtable[idx];
+    while(tp!=NULL)
+    {
+        if(tp->key==key)
+        {
+            printf("found at index -> %d",idx);
+            return;
+        }
+        tp=tp->next;
+    }
+    printf("not found");
+}
+
+void deletee(int key)
+{
+    int idx=hash(key);
+    node tp=hashtable[idx];
+    node prv=NULL;
+    while(tp!=NULL)
+    {
+        if(tp->key==key)
+        {
+            if(prv==NULL)
+            {
+                hashtable[idx]=tp->next;
+            }
+            else
+            {
+                prv->next=tp->next;
+            }
+            free(tp);
+            return;
+        }
+        prv=tp;
+        tp=tp->next;
+    }
+    printf("not found");
+}
+void display()
+{
+    for(int i=0;i<n;i++)
+    {
+        node tp=hashtable[i];
+        if(tp==NULL)
+        {
+            printf("no element \n");
+            continue;
+        }
+        else
+        {
+            while(tp!=NULL)
+            {
+            printf("index -> %d temp ->key  %d  temp  -> value %d \n",i,tp->key,tp->value); 
+                tp=tp->next;
+            }
+        }
+    }
+    
+}
+int main()
+{
+    init();
+    insert(101,20);
+    insert(1102,2102);
+    insert(1203,2303);
+    insert(140,62207);
+    insert(1220,206);
+    display();
+    printf("\n");
+    search(1220);
+    printf("\n");
+    printf("\n");
+    printf("\n");
+    deletee(140);
+    display();
+}
+
