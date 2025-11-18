@@ -1,0 +1,56 @@
+#include<stdio.h>
+#define n 5
+int q[n];
+int f=-1,r=-1;
+
+void enqueue(int data)
+{
+    if(r==n-1)
+    {
+        printf("full");
+        return;
+    }
+    if(f==-1 && r==-1)
+    {
+        f=r=0;
+        q[f]=data;
+        return;
+    }
+    q[++r]=data;
+    
+}
+
+void dequeue()
+{
+    if(f==-1)
+    {
+        printf("empty");
+        return;
+    }
+    printf("%d",q[f]);
+    f++;
+    if(f>r)
+    {
+        f=r=-1;
+    }
+}
+void display()
+{
+    for(int i=f;i<=r;i++)
+    {
+        printf("%d ",q[i]);
+    }
+}
+int main()
+{
+    enqueue(1);
+    enqueue(2);
+    enqueue(3);
+    enqueue(4);
+    enqueue(5);
+    display();
+    printf("\n");
+    dequeue();
+    printf("\n");
+    display();
+}
