@@ -1,0 +1,126 @@
+#include<stdio.h>
+#include<stdlib.h>
+#define empty NULL
+#define n 5
+int x=0;
+typedef struct node{
+    int key;
+    int value;
+    struct node* next;
+}*node;
+
+struct node* hashtable[n];
+
+void init()
+{
+    for(int i=0;i<n;i++)
+    {
+        hashtable[i]=empty;
+    }
+}
+
+node create(int key,int value)
+{
+    node nn=malloc(sizeof(struct node));
+    nn->key=key;
+    nn->value=value;
+    nn->next=NULL;
+    return nn;
+}
+int hash(int key)
+{
+    return key%n;
+}
+void insert(int key,int value)
+{
+    int idx=hash(key);
+    node nn=create(key,value);
+    node *tp=&hashtable[idx];
+    while(*tp!=NULL)
+    {
+            x++;
+        if((*tp)->key==key)
+        {
+            (*tp)->value=value;
+            free(nn);
+            return;
+        }
+        tp=&(*tp)->next;
+    }
+    *tp=nn;
+         }
+
+void display()
+{
+    for(int i=0;i<n;i++)
+    {
+        node tp=hashtable[i];
+        if(tp==NULL)
+        {
+            printf("no element %d \n",i);
+            continue;
+        }
+        else
+        {
+            while(tp!=NULL)
+            {
+                printf("index -> %d key -> %d value -> %d \n",i,tp->key,tp->value);
+                tp=tp->next;
+            }
+        }
+    }
+}
+void delete(int key)
+{
+    int idx=hash(key);
+    node *tp=&hashtable[idx];
+    
+    while(*tp!=NULL)
+    {
+        if((*tp)->key==key)
+        {
+            node x=*tp;
+            *tp=(*tp)->next;
+            free(x);
+            return;
+        }
+         tp=&(*tp)->next;
+    }
+}
+
+void search(int key)
+{
+    int idx=hash(key);
+    node tp=hashtable[idx];
+    while(tp!=NULL)
+    {
+        if(tp->key==key)
+        {
+            printf("found at index ->  %d ",idx);
+            return;
+        }
+        else
+        {
+            tp=tp->next;
+        }
+    }
+    printf("not found");
+}
+int main()
+{
+    init();
+    insert(2,5);
+    insert(212,25);
+    insert(32,55);
+    insert(28,65);
+    insert(29,45);
+    display();
+    printf("\n");
+    printf("\n");
+    delete(21);
+    display();
+    printf("\n");
+    search(29);
+    printf("\n");
+    printf("%d",x);
+}
