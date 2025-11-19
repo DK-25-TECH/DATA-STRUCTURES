@@ -1,0 +1,146 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+typedef struct node{
+    int data;
+    struct node *next;
+    struct node *prv;
+}node;
+
+node* create(int data)
+{
+    node *nn=malloc(sizeof(struct node));
+    nn->data=data;
+    nn->next=NULL;
+    nn->prv=NULL;
+    return nn;
+}
+
+
+void insertlst(node **head,int data)
+{
+    node *nn=create(data);
+    if(*head==NULL)
+    {
+        *head=nn;
+        return;
+    }
+    node *tp=*head;
+    while(tp->next!=NULL)
+    {
+        tp=tp->next;
+    }
+    tp->next=nn;
+    nn->prv=tp;
+}
+
+void display(node *head)
+{
+    if(head==NULL)
+    {
+        return;
+    }
+    node *tp=head;
+    while(tp!=NULL)
+    {
+        printf("%d ",tp->data);
+        tp=tp->next;
+    }
+}
+
+void createcycle(node **head)
+{
+   if(*head==NULL)
+   {
+       return;
+   }
+    
+    node *tail=*head;
+    while(tail->next!=NULL)
+    {
+        tail=tail->next;
+    }
+    
+    tail->next=*head;
+    (*head)->prv=tail;
+}
+
+void detectCycle(node *head)
+{
+    node *fx=head;
+    node *sx=head;
+    while(fx!=NULL && fx->next!=NULL)
+    {
+        fx=fx->next->next;
+        sx=sx->next;
+        if(fx==sx)
+        {
+            printf("ITS A CIRCULAR\n");
+            return;
+        }
+    }
+    printf("NOT A CIRCULAR");
+}
+void circularSplit(node *head,node **head1,node **head2)
+{
+    if(head==NULL)
+    {
+        return;
+    }
+    node *fx=head;
+    node *sx=head;
+    while(fx->next!=head && fx->next->next!=head)
+    {
+        fx=fx->next->next;
+        sx=sx->next;
+    }
+    if(fx->next->next==head)
+    {
+        fx=fx->next;
+    }
+    *head1=head;
+    *head2=sx->next;
+    
+    sx->next=*head1;
+    (*head1)->prv=sx;
+    fx->next=*head2;
+    (*head2)->prv=fx;
+}
+
+void displayCircular(node *head)
+{
+    if(head==NULL) return;
+    node *tp=head;
+    do
+    {
+        printf("%d ",tp->data);
+        tp=tp->next;
+    }while(tp!=head);
+}
+int main()
+{
+    node *head=NULL;
+    insertlst(&head,1);
+    insertlst(&head,1);
+    insertlst(&head,3);
+    insertlst(&head,4);
+    insertlst(&head,5);
+    insertlst(&head,6);
+    insertlst(&head,7);
+    insertlst(&head,7);
+    insertlst(&head,9);
+    insertlst(&head,10);
+    display(head);
+    printf("\n");
+    createcycle(&head);
+    printf("\n");
+    detectCycle(head);
+    node *head1=NULL,*head2=NULL;
+    circularSplit(head,&head1,&head2);
+    printf("\n");
+    displayCircular(head1);
+    printf("\n");
+    displayCircular(head2);
+    printf("\n");
+}
+
