@@ -1,0 +1,105 @@
+#include<stdio.h>
+
+#include<stdlib.h>
+
+typedef struct node{
+    int data;
+    struct node *next;
+    struct node *prv;
+}node;
+
+node* create(int data)
+{
+    node *nn=malloc(sizeof(struct node));
+    nn->data=data;
+    nn->next=NULL;
+    nn->prv=NULL;
+    return nn;
+}
+
+void inslst(node **head,int data)
+{
+    node *nn=create(data);
+    if(*head==NULL)
+    {
+        *head=nn;
+        return;
+    }
+    node *tp=*head;
+    while(tp->next!=NULL)
+    {
+        tp=tp->next;
+    }
+    tp->next=nn;
+    nn->prv=tp;
+}
+
+void display(node *head)
+{
+    if(head==NULL)
+    {
+        return;
+    }
+    node *tp=head;
+    while(tp!=NULL)
+    {
+        printf("%d ",tp->data);
+        tp=tp->next;
+    }
+}
+int ispresent(node *head,int data)
+{
+    node *tp=head;
+    while(tp!=NULL)
+    {
+        if(tp->data==data)
+        {
+            return 1;
+        }
+        tp=tp->next;
+    }
+    return 0;
+}
+void unionn(node **head,node **head1,node **xd)
+{
+    node *x=*head;
+    
+    while(x!=NULL)
+    {
+        if(!ispresent(*xd,x->data))
+        {
+        inslst(xd,x->data);
+            
+        }
+        x=x->next;
+    }
+    node *y=*head1;
+    while(y!=NULL)
+    {
+        if(!ispresent(*xd,y->data))
+        {
+            
+        inslst(xd,y->data);
+        }
+        y=y->next;
+    }
+}
+int main()
+{
+    node *head=NULL;
+    node *head1=NULL;
+    node *xd=NULL;
+    inslst(&head,1);
+    inslst(&head,2);
+    inslst(&head,3);
+    inslst(&head,3);
+    inslst(&head,5);
+    inslst(&head1,6);
+    inslst(&head1,6);
+    inslst(&head1,8);
+    inslst(&head1,6);
+    inslst(&head1,10);
+    unionn(&head,&head1,&xd);
+    display(xd);
+    printf("\n");
+}
