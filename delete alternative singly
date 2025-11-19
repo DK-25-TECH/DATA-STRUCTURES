@@ -1,0 +1,82 @@
+#include<stdio.h>
+
+#include<stdlib.h>
+
+typedef struct node{
+    int data;
+    struct node *next;
+}node;
+
+node* create(int data)
+{
+    node *nn=malloc(sizeof(struct node));
+    nn->data=data;
+    nn->next=NULL;
+    return nn;
+}
+
+void inslst(node **head,int data)
+{
+    node *nn=create(data);
+    if(*head==NULL)
+    {
+        *head=nn;
+        return;
+    }
+    node *tp=*head;
+    while(tp->next!=NULL)
+    {
+        tp=tp->next;
+    }
+    tp->next=nn;
+}
+
+void delete(node **head)
+{
+    if(*head==NULL)
+    {
+        return;
+    }
+    node *tp=*head;
+    while(tp!=NULL && tp->next!=NULL)
+    {
+        node *cur=tp->next;
+        tp->next=cur->next;
+        free(cur);
+        tp=tp->next;
+    }
+    
+}
+
+void display(node *head)
+{
+    if(head==NULL)
+    {
+        return;
+    }
+    node *tp=head;
+    while(tp!=NULL)
+    {
+        printf("%d ",tp->data);
+        tp=tp->next;
+    }
+}
+
+int main()
+{
+    node *head=NULL;
+    inslst(&head,1);
+    inslst(&head,2);
+    inslst(&head,3);
+    inslst(&head,4);
+    inslst(&head,5);
+    inslst(&head,6);
+    inslst(&head,7);
+    inslst(&head,8);
+    inslst(&head,9);
+    inslst(&head,10);
+    display(head);
+    printf("\n");
+    delete(&head);
+    display(head);
+}
