@@ -1,0 +1,159 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+typedef struct node{
+    int data;
+    struct node *next;
+}node;
+
+node* create(int data)
+{
+    node *nn=malloc(sizeof(struct node));
+    nn->data=data;
+    nn->next=NULL;
+    return nn;
+}
+
+
+void insertlst(node **head,int data)
+{
+    node *nn=create(data);
+    if(*head==NULL)
+    {
+        *head=nn;
+        return;
+    }
+    node *tp=*head;
+    while(tp->next!=NULL)
+    {
+        tp=tp->next;
+    }
+    tp->next=nn;
+}
+
+node* middle(node *head)
+{
+    node *fx=head;
+    node *sx=head;
+    while(fx!=NULL && fx->next!=NULL)
+    {
+        fx=fx->next->next;
+        sx=sx->next;
+    }
+    return sx;
+}
+void display(node *head)
+{
+    if(head==NULL)
+    {
+        return;
+    }
+    node *tp=head;
+    while(tp!=NULL)
+    {
+        printf("%d ",tp->data);
+        tp=tp->next;
+    }
+}
+
+int count(node *head)
+{
+    node *tp=head;
+    int x=0;
+    while(tp!=NULL)
+    {
+        tp=tp->next;
+        x++;
+    }
+    return x;
+}
+node *nthnode(node *head,int pos)
+{
+    node *tp=head;
+    int minus=count(head);
+    int x=minus-pos;
+    int z=0;
+    while(z<x)
+    {
+        tp=tp->next;
+        z++;
+    }
+    return tp;
+}
+void removedup(node **head)
+{
+    node *tp=*head;
+    while(tp!=NULL && tp->next!=NULL)
+    {
+        if(tp->data==tp->next->data)
+        {
+            node *x=tp->next;
+            tp->next=tp->next->next;
+            free(x);
+        }
+        else
+        {
+           tp=tp->next;
+        }
+    }
+}
+void createcycle(node **head)
+{
+    node *fx=*head;
+    node *sx=*head;
+    while(fx!=NULL && fx->next!=NULL)
+    {
+        fx=fx->next->next;
+        sx=sx->next;
+    }
+    node *tail=*head;
+    while(tail->next!=NULL)
+    {
+        tail=tail->next;
+    }
+    tail->next=sx;
+}
+
+void detectCycle(node *head)
+{
+    node *fx=head;
+    node *sx=head;
+    while(fx!=NULL && fx->next!=NULL)
+    {
+        fx=fx->next->next;
+        sx=sx->next;
+        if(fx==sx)
+        {
+            printf("YES\n");
+            return;
+        }
+    }
+    printf("NO");
+}
+int main()
+{
+    node *head=NULL;
+    insertlst(&head,1);
+    insertlst(&head,1);
+    insertlst(&head,3);
+    insertlst(&head,4);
+    insertlst(&head,5);
+    insertlst(&head,6);
+    insertlst(&head,7);
+    insertlst(&head,7);
+    insertlst(&head,9);
+    insertlst(&head,10);
+    display(head);
+    printf("\n");
+    node *x=middle(head);
+    printf("middle -> %d",x->data);
+    printf("\n");
+    node *y=nthnode(head,3);
+    printf("nth node from last -> %d",y->data);
+    removedup(&head);
+    printf("\n");
+    display(head);
+    printf("\n");
+    createcycle(&head);
+    detectCycle(head);
+}
