@@ -1,0 +1,146 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+typedef struct node{
+    int data;
+    struct node *next;
+    struct node *prv;
+}node;
+node* create(int data)
+{
+    node *nn=malloc(sizeof(struct node));
+    nn->data=data;
+    nn->next=NULL;
+    nn->next=NULL;
+     return nn;
+}
+void insertbeg(node **head,int data)
+{
+    struct node *nn=create(data);
+    if(*head==NULL)
+    {
+        *head=nn;
+        return;
+    }
+    
+    nn->next=*head;
+    (*head)->prv=nn;
+    *head=nn;
+}
+void insertlast(node **head,int data)
+{
+    node *nn=create(data);
+    if(*head==NULL)
+    {
+        *head=nn;
+        return;
+    }
+    node *tp=*head;
+    while(tp->next!=NULL)
+    {
+        tp=tp->next;
+    }
+    tp->next=nn;
+    nn->prv=tp;
+}
+
+node *rotateRight(node **head,int k)
+{
+    if(*head==NULL || (*head)->next==NULL || k==0)
+    {
+        return *head;
+    }
+    int n=1;
+    node *tail=*head;
+    while(tail->next!=NULL)
+    {
+        n++;
+        tail=tail->next;
+    }
+    k=k%n;
+    if(k==0)
+    {
+        return *head;
+    }
+    tail->next=*head;
+    node *newtail=*head;
+    int sx=n-k-1;
+    int x=0;
+    while(x<sx)
+    {
+        x++;
+        newtail=newtail->next;
+    }
+    
+    node *newHead=newtail->next;
+    
+    newtail->next=NULL;
+    newHead->prv=NULL;
+    return newHead;
+}
+node *leftRotate(node **head,int k)
+{
+    if(*head==NULL || (*head)->next==NULL || k==0)
+    {
+        return *head;
+    }
+    int n=1;
+    node *tail=*head;
+    while(tail->next!=NULL)
+    {
+        n++;
+        tail=tail->next;
+    }
+    tail->next=*head;
+    k=k%n;
+    if(k==0)
+    {
+        return *head;
+    }
+    int sx=k-1;
+    node *newtail=*head;
+    int x=0;
+    while(x<sx)
+    {
+        newtail=newtail->next;
+        x++;
+    }
+    node *newHead=newtail->next;
+    newtail->next=NULL;
+    newHead->prv=NULL;
+    return newHead;
+}
+void display(node *head)
+{
+    if(head==NULL)
+    {
+        return;
+    }
+    node *tp=head;
+    while(tp!=NULL)
+    {
+        printf("%d ",tp->data);
+        tp=tp->next;
+    }
+}
+
+int main()
+{
+    node *head=NULL;
+    insertbeg(&head,1);
+    insertbeg(&head,2);
+    insertbeg(&head,3);
+    insertbeg(&head,4);
+    insertbeg(&head,5);
+    insertbeg(&head,6);
+    insertlast(&head,1000);
+    display(head);
+    printf("\n");
+    head=rotateRight(&head,2);
+    printf("\n");
+    display(head);
+    printf("\n");
+    printf("\n");
+    head=leftRotate(&head,5);
+    display(head);  
+}
