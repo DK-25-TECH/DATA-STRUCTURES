@@ -1,0 +1,104 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct node{
+    int data;
+    struct node *next;
+}node;
+
+node* create(int data)
+{
+    node *nn=malloc(sizeof(struct node));
+    nn->data=data;
+    nn->next=NULL;
+    return nn;
+}
+
+void insLast(node **head,int data)
+{
+    node *nn=create(data);
+    if(*head==NULL)
+    {
+        nn->next=*head;
+        *head=nn;
+        return;
+    }
+    node *tp=*head;
+    while(tp->next!=NULL)
+    {
+        tp=tp->next;
+    }
+    tp->next=nn;
+}
+
+void display(node *head)
+{
+    node *tp=head;
+    while(tp!=NULL)
+    {
+        printf("%d ",tp->data);
+        tp=tp->next;
+    }
+}
+int length(node *head)
+{
+    if(head==NULL)
+    {
+        return 0;
+    }
+    int x=1;
+    while(head!=NULL)
+    {
+        x++;
+        head=head->next;
+    }
+    return x;
+}
+void identical(node *head1,node *head2)
+{
+    int len1=length(head1);
+    int len2=length(head2);
+    if(len1!=len2)
+    {
+        printf("NO");
+        return;
+    }
+    
+    node *x=head1;
+    node *y=head2;
+    
+    while(x!=NULL && y!=NULL)
+    {
+        if(x->data!=y->data)
+        {
+            printf("NO");
+            return;
+        }
+        x=x->next;
+        y=y->next;
+    }
+    printf("YES");
+}
+int main()
+{
+    node *head1=NULL;
+    node *head2=NULL;
+    
+    insLast(&head1,1);
+    insLast(&head1,2);
+    insLast(&head1,3);
+    
+    
+    insLast(&head2,1);
+    insLast(&head2,3);
+    insLast(&head2,2);
+   
+    
+    identical(head1,head2);
+    
+}
+
+
+
+
+
+
