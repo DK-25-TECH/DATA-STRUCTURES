@@ -1,0 +1,130 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct node{
+    int data;
+    struct node *next;
+}node;
+
+node* create(int data)
+{
+    node *nn=malloc(sizeof(struct node));
+    nn->data=data;
+    nn->next=NULL;
+    return nn;
+}
+
+void insLast(node **head,int data)
+{
+    node *nn=create(data);
+    if(*head==NULL)
+    {
+        nn->next=*head;
+        *head=nn;
+        return;
+    }
+    node *tp=*head;
+    while(tp->next!=NULL)
+    {
+        tp=tp->next;
+    }
+    tp->next=nn;
+}
+
+void display(node *head)
+{
+    node *tp=head;
+    while(tp!=NULL)
+    {
+        printf("%d ",tp->data);
+        tp=tp->next;
+    }
+}
+int length(node *head)
+{
+    if(head==NULL)
+    {
+        return 0;
+    }
+    int x=1;
+    while(head!=NULL)
+    {
+        x++;
+        head=head->next;
+    }
+    return x;
+}
+void createCycle(node **head1)
+{
+    node *tp=*head1;
+    while(tp->next!=NULL)
+    {
+        tp=tp->next;
+    }
+    tp->next=*head1;
+}
+void detectCycle(node *head1)
+{
+    node *sx=head1;
+    node *fx=head1;
+    while(fx!=NULL && fx->next!=NULL)
+    {
+        fx=fx->next->next;
+        sx=sx->next;
+        if(sx==fx)
+        {
+            printf("YES");
+            return;
+        }
+    }
+    printf("NO");
+}
+
+node *startingPoint(node *head1)
+{
+     node *fx=head1;
+    node *sx=head1;
+    
+    while(fx!=NULL && fx->next!=NULL)
+    {
+         fx=fx->next->next;
+         sx=sx->next;
+         if(sx==fx)
+         {
+             sx=head1;
+             while(sx!=fx)
+             {
+                 sx=sx->next;
+                 fx=fx->next;
+             }
+             return sx;
+         }
+    }
+    return NULL;
+}
+int main()
+{
+    node *head1=NULL;
+    node *head2=NULL;
+    
+    insLast(&head1,1);
+    insLast(&head1,2);
+    insLast(&head1,3);
+    insLast(&head1,4);
+    insLast(&head1,5);
+    insLast(&head1,6);
+    insLast(&head1,7);
+
+   
+    createCycle(&head1);
+    detectCycle(head1);
+    printf("\n");
+    node *x=startingPoint(head1);
+    printf("%d ",x->data);
+    
+}
+
+
+
+
+
+
