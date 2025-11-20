@@ -1,0 +1,91 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct node{
+    int data;
+    struct node *next;
+    struct node *prv;
+}node;
+
+node* create(int data)
+{
+    node *nn=malloc(sizeof(struct node));
+    nn->data=data;
+    nn->next=NULL;
+    nn->prv=NULL;
+    return nn;
+}
+
+void insLast(node **head,int data)
+{
+    node *nn=create(data);
+    if(*head==NULL)
+    {
+        nn->next=*head;
+        *head=nn;
+        return;
+    }
+    node *tp=*head;
+    while(tp->next!=NULL)
+    {
+        tp=tp->next;
+    }
+    tp->next=nn;
+    nn->prv=tp;
+}
+
+void display(node *head1)
+{
+    node *tp=head1;
+    while(tp!=NULL)
+    {
+        printf("%d ",tp->data);
+        tp=tp->next;
+    }
+}
+
+void ispalindrome(node *head1)
+{
+    node *tail=head1;
+    while(tail->next!=NULL)
+    {
+        tail=tail->next;
+    }
+    node *head=head1;
+    while(head!=tail && head->prv!=tail)
+    {
+        if(head->data!=tail->data)
+        {
+            printf("NO");
+            return;
+        }
+        head=head->next;
+        tail=tail->prv;
+    }
+    printf("YES");
+}
+    
+int main()
+{
+    node *head1=NULL;
+    
+    insLast(&head1,1);
+    insLast(&head1,2);
+    insLast(&head1,3);
+    insLast(&head1,4);
+    insLast(&head1,3);
+    insLast(&head1,2);
+    insLast(&head1,1);
+
+   
+    
+    display(head1);
+    printf("\n");
+    ispalindrome(head1);
+    
+}
+
+
+
+
+
+
