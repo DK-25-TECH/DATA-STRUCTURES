@@ -1,0 +1,141 @@
+#include <stdio.h>
+#include <stdlib.h>
+#define n 5
+#define x NULL
+
+typedef struct node {
+    int key;
+    int val;
+    struct node *next;
+} node;
+
+struct node *ht[n];
+
+void init()
+{
+    for (int i = 0; i < n; i++)
+    {
+        ht[i] = x;
+    }
+}
+
+int hash(int key)
+{
+    return key % n;
+}
+
+void insert(int key, int val)
+{
+    int idx = hash(key);
+    node *nn = malloc(sizeof(struct node));
+    nn->key = key;
+    nn->val = val;
+    nn->next = NULL;
+
+    if (ht[idx] == NULL)
+    {
+        ht[idx] = nn;
+    }
+    else
+    {
+        node *tp = ht[idx];
+        while (tp != NULL)
+        {
+            if (tp->key == key)
+            {
+                tp->val = val; // Update existing key
+                free(nn);
+                return;
+            }
+            if (tp->next == NULL)
+                break;
+            tp = tp->next;
+        }
+        tp->next = nn;
+    }
+}
+
+void search(int key)
+{
+    int idx = hash(key);
+    node *tp = ht[idx];
+    while (tp != NULL)
+    {
+        if (tp->key == key)
+        {
+            printf("Found -> key %d, value %d (at index %d)\n", tp->key, tp->val, idx);
+            return;
+        }
+        tp = tp->next;
+    }
+    printf("Key %d not found\n", key);
+}
+
+void delete(int key)
+{
+    int idx = hash(key);
+    node *tp = ht[idx];
+    node *prv = NULL;
+
+    while (tp != NULL)
+    {
+        if (tp->key == key)
+        {
+            if (prv == NULL)
+            {
+                ht[idx] = tp->next;
+            }
+            else
+            {
+                prv->next = tp->next;
+            }
+            free(tp);
+            printf("Key %d deleted\n", key);
+            return;
+        }
+        prv = tp;
+        tp = tp->next;
+    }
+    printf("Key %d not found (cannot delete)\n", key);
+}
+
+void display()
+{
+    for (int i = 0; i < n; i++)
+    {
+        node *tp = ht[i];
+        if (tp != NULL)
+        {
+            printf("Index %d:\n", i);
+            while (tp != NULL)
+            {
+                printf("  Key: %d  ->  Value: %d\n", tp->key, tp->val);
+                tp = tp->next;
+            }
+        }
+        else
+        {
+            printf("Index %d: Empty\n", i);
+        }
+    }
+}
+
+int main()
+{
+    init();
+
+    insert(1, 20);
+    insert(12, 230);
+    insert(31, 204);
+    insert(133, 2330);
+    insert(17, 270);
+    insert(18, 280);
+    insert(19, 290);
+
+    printf("Hash Table:\n");
+    display();
+
+    printf("\nSearching for key 31...\n");
+    search(31);
+
+    printf("\nDeleting key 17...\
