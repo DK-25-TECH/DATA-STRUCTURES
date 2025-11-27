@@ -1,0 +1,50 @@
+#include<stdio.h>
+#define n 5
+int st1[n];
+int st2[n];
+int tp1=-1;
+int tp2=-1;
+int main()
+{
+    int x;
+    scanf("%d",&x);
+    while(x--)
+    {
+        int op;
+        scanf("%d",&op);
+        if(op==1)
+        {
+            int val;
+            scanf("%d",&val);
+            if(tp1<n-1)
+            {
+                st1[++tp1]=val;
+            }
+        }
+        else if(op==2)
+        {
+            if(tp2==-1)
+            {
+                while(tp1>=0)
+                {
+                    st2[++tp2]=st1[tp1--];
+                }
+            }
+            if(tp2!=-1)
+            {
+                tp2--;
+            }
+        }
+        else if(op==3)
+        {
+            if(tp2==-1)
+            {
+                while(tp1>=0)
+                {
+                    st2[++tp2]=st1[tp1--];
+                }
+            }
+            printf("%d\n",st2[tp2]);
+        }
+    }
+}
